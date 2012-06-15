@@ -3,7 +3,7 @@
 
 (let [db-host "localhost"
       db-port 3306
-      db-name "slam"]
+      db-name "apibatch"]
   (def db {:classname "com.mysql.jdbc.Driver"
            :subprotocol "mysql"
            :subname (str "//" db-host ":" db-port "/" db-name)
@@ -27,3 +27,8 @@
     (sql/with-query-results rows
       [query]
       (get-table-content-html rows))))
+
+(defmacro select [& rest-of-query]
+  (let [q (reduce #(str %1 " " %2) rest-of-query)]
+    (print-table (str "select " q))))
+
